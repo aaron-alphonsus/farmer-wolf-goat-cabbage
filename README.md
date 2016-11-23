@@ -1,4 +1,5 @@
-# Functional Programming in Lisp: Farmer, Wolf, Goat, Cabbage Puzzle
+# Functional Programming in Lisp
+## Farmer, Wolf, Goat, Cabbage Puzzle
 
 A farmer with his wolf, goat, and cabbage arrive at the bank of a river. A boat 
 at the river’s edge is only large enough for the farmer and one of his 
