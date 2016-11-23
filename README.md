@@ -1,5 +1,4 @@
-# CSC461 Programming Languages – Fall 2016 Programming Assignment #4: Functional 
-# Programming in Lisp Farmer, Wolf, Goat, Cabbage Puzzle
+# Functional Programming in Lisp: Farmer, Wolf, Goat, Cabbage Puzzle
 
 A farmer with his wolf, goat, and cabbage arrive at the bank of a river. A boat 
 at the river’s edge is only large enough for the farmer and one of his 
@@ -10,7 +9,7 @@ river with all of his possessions intact.
 Initiate the search by typing (FWGC) at the Lisp prompt. Output each state in 
 the solution path in a nicely-formatted sequence, similar to this:
 
-  > (fwgc)
+  *>* (fwgc)
 
     Left Bank    Right Bank    Action
     ---------    ----------    ------------------------
@@ -49,7 +48,7 @@ backtrack. Recursion is an elegant way to handle the backtracking. Once a goal
 state is reached, the path can be traced back to the start state to recover the 
 sequence of solution steps.
 
-Notes:
+### Notes:
  - Write a Lisp program that uses the state space approach to solve the Farmer, 
    Wolf, Goat, and Cabbage Problem. Code a recursive DFS function to implement 
    the search strategy. You must use this approach to receive full credit on the
