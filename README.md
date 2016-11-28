@@ -52,28 +52,9 @@ sequence of solution steps.
 ### Notes:
  - Write a Lisp program that uses the state space approach to solve the Farmer, 
    Wolf, Goat, and Cabbage Problem. Code a recursive DFS function to implement 
-   the search strategy. You must use this approach to receive full credit on the
-   assignment.
-
- - To receive full credit, your code must be readable, modular, nicely 
-   formatted, and adequately documented, as well as complete and correct. It 
-   must build and run successfully under the current CLISP interpreter (version 
-   2.49, available on the course website) under Windows and Linux. If your 
-   program does not run correctly, indicate why. This will make it easier to 
-   give you partial credit.
-
- - When you are finished writing, testing, and debugging your program, submit 
-   your source code using the Submit It! link on the MCS Department Website. 
-   Usage is self-explanatory: enter your name, choose the instructor (Weiss) and
-   click “Select  Instructor”, choose the appropriate course (CSC461), browse to 
-   the filename you wish to submit, and click “Upload”. Multi-file programs 
-   should be packaged in a zip or tar archive for submission.
-
- - Submit your program by midnight on the due date (Wednesday, November 30) in 
-   order to receive credit for this assignment. Late programs will not be 
-   accepted for partial credit unless prior arrangements have been made with the 
-   instructor. If you have any problems with the submit program, report them to 
-   your instructor by email, and submit your program via email attachment.
-
- - You must work alone on this assignment. Please do not share code with your 
-   classmates.
+   the search strategy. 
+   
+ - Your code must be readable, modular, nicely formatted, and adequately 
+   documented, as well as complete and correct. It must build and run 
+   successfully under the current CLISP interpreter (version 2.49) under Windows
+   and Linux. If your program does not run correctly, indicate why. 
