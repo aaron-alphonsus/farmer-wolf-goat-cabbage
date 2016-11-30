@@ -21,109 +21,170 @@ Usage: clisp (to open Lisp prompt)
 
 Dev Timeline:
 Date           Modification
------------    ------------
+-----------    --------------------------------------------
 Nov 22 2016    Created main
 Nov 28 2016	   Restructured program - created fwgc function
+Nov 29 2016    Recursion works, solution path found
 
 TODO
- - Create function with no args
- - Define initial list for state tracking
- - Create 'explore' recursive function
- - Create move functions (not required?)
- - Design stack for 'seen before' and output (not required?)
+ - Create path list and move list
  - Create Output function (not required?)
- - Make modular (multi-file?) (not required?)
  - Docstring comments
 
 |#
 
-(write-line "Hello, World!")
-
-#|
 ; fwgc function
-(defun fwgc ( args )
+(defun fwgc ()
     "(main args): emulate a main function, called with command-line args"
-    (format t "~D command line arguments: ~A" (length args) args)
+    ;(format t "~D command line arguments: ~A" (length args) args)
 
     ; initial state: 0 0 0 0 (0)
     ; final state: 1 1 1 1 (15)
     ; keep list of states for printout? Nope. Print path backwards, switching
 		; left and right bank
 	
-	(write-line "Hello, World!")
+    ;(setf curr-state '(0 0 0 0))
+    ;(setf prev-move )
+	;(write-line "Hello, World!")
 
-	; explore ('(0 0 0 0) -1)
+    ( let 
+        (
+            (curr-state '(0 0 0 0))
+            (prev-move '-1)
+            ;(path-list nil)
+        )
+	    (explore curr-state prev-move)
+        ;(explore curr-state prev-move path-list)
+        ;(Print path-list)
+    )    
 )
-|#
+
 
 ; define the 'explore' recursive function (look for multi-function program)
-#|
-(defun explore (curr_state, prev_path)
-	;base cases
-    if curr_total == goal_total (15)
-        return success
-    if dangerous state
-        return failure
 
+;(defun explore (curr-state prev-move path-list)
+(defun explore (curr-state prev-move)
+    
+    ;(write prev-move)
+    ;(write (nth 0 curr-state))
+    ;(nth 1 curr-state)
+
+    ;(Print curr-state)
+    ;(Print prev-move)
+
+	; base cases
+    ; if curr-state == goal_state (15) 
+        ; return success
+    ; if dangerous state 
+        ; return failure
+    (cond 
+        ; goal state
+        ;((equal curr-state '(1 1 1 1)) (cons curr-state path-list) t)
+        ((equal curr-state '(1 1 1 1)) (Print curr-state) (Print prev-move) t)
+        
+        (
+         ; dangerous states
+         (or
+            ; wolf and goat without farmer 
+            (and 
+                (equal (nth 1 curr-state) (nth 2 curr-state)) 
+                (not (equal (nth 0 curr-state) (nth 1 curr-state)))
+            )
+            ; goat and cabbage without farmer
+            (and 
+                (equal (nth 2 curr-state) (nth 3 curr-state)) 
+                (not (equal (nth 0 curr-state) (nth 2 curr-state)))
+            )
+         )  nil
+        )
+
+        ; (t transition-rules curr-state nil)
+        #|((transition-rules curr-state prev-move path-list) 
+            (cons curr-state path-list) t
+        )|#
+        ((transition-rules curr-state prev-move) 
+            (Print curr-state) (Print prev-move) t
+        )
+    )
+)
+
+;(defun transition-rules (curr-state prev-move path-list)
+(defun transition-rules (curr-state prev-move)
+
+    (cond 
+        ; if prev-move != 0
+        ; move F (switch first element: 0 to 1 or 1 to 0)
+        ; if explore (curr-state, 0) == success
+            ; return success
+
+        ((and
+            (not (= prev-move '0)) 
+            (explore (list (toggle (nth 0 curr-state))
+                           (nth 1 curr-state)
+                           (nth 2 curr-state)
+                           (nth 3 curr-state)
+                     ) '0 )
+         ) t 
+        )
+
+        ; if prev-move != 1 & F and W same side
+        ; move F and W (switch first & second element: 0 to 1 or 1 to 0)
+        ; if explore (curr-state, 1) == success
+            ; return success
+
+        ((and 
+            (not (= prev-move '1)) 
+            (equal (nth 0 curr-state) (nth 1 curr-state))
+            (explore (list (toggle (nth 0 curr-state))
+                           (toggle (nth 1 curr-state))
+                           (nth 2 curr-state)
+                           (nth 3 curr-state)
+                     ) '1 )
+         ) t
+        )
+
+        ; if prev-move != 2 & F and G same side
+        ; move F and G (switch first & third element: 0 to 1 or 1 to 0)
+        ; if explore (curr-state, 2) == success
+            ; return success
+
+        ((and 
+            (not (= prev-move '2)) 
+            (equal (nth 0 curr-state) (nth 2 curr-state))
+            (explore (list (toggle (nth 0 curr-state))
+                           (nth 1 curr-state)
+                           (toggle (nth 2 curr-state))
+                           (nth 3 curr-state)
+                     ) '2 )
+         ) t
+        )
+
+        ; if prev-move != 3 & F and C same side
+        ; move F and C (switch first & fourth element: 0 to 1 or 1 to 0)
+        ; if explore (curr-state, 3) == success
+            ; return success
+
+        ((and 
+            (not (= prev-move '3)) 
+            (equal (nth 0 curr-state) (nth 3 curr-state))
+            (explore (list (toggle (nth 0 curr-state))
+                           (nth 1 curr-state)
+                           (nth 2 curr-state)
+                           (toggle (nth 3 curr-state))
+                     ) '3 )
+         ) t
+        )
+    )
+#|    
     ; moves
     ; while returning success, store moves on stack for output
-    ; also figure out where things will be added for 'seen before'
-    move F
-    if prev_path != 0
-		if explore (curr_state, 0) == success
-        return success
-    if prev_path != 1 & F and W same side
-        move F and W
-        if explore (curr_state, 1) == success
-            return success
-    if prev_path != 2 & F and G same side
-        move F and G
-        if explore (curr_state, 2) == success
-            return success
-    if prev_path != 3 & F and C same side
-        move F and C
-        if explore (curr_state, 3) == success
-            return success
+    ; also figure out where things will be added for 'seen before'  
    
     return failure
-)
 |#
 
-#|
-(defun moveF (curr_state)
-    if 1st elm = 0
-        change to 1, add 8 to curr_total
-    else
-        change to 0, subtract 8
 )
-|#
 
-#|
-(defun moveFW
-    if 2nd elm = 0
-        change to 1, add 4 to curr_total
-    else
-        change to 0, subtract 4
-)
-|#
-
-#|
-(defun moveFG
-    if 3rd elm = 0
-        change to 1, add 2 to curr_total
-    else
-        change to 0, subtract 2
-)
-|#
-
-#|
-(defun moveFC
-    if 4th elm = 0
-        change to 1, add 1 to curr_total
-    else
-        change to 0, subtract 1
-)
-|#
-
-; call the main function, passing command-line arguments
-; (main *ARGS*)
+(defun toggle (bank)
+   (cond ((equal bank 1) 0)
+             ((equal bank 0) 1)))
