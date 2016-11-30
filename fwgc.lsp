@@ -16,7 +16,7 @@ Class:  CSC461 Programming Languages
 Date:   30 November 2016
 
 Usage: clisp (to open Lisp prompt)
-	   (load fwgc.lsp)
+	   (load 'fwgc)
 	   >  (fwgc)
 
 Dev Timeline:
