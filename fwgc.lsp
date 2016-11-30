@@ -24,13 +24,12 @@ Date           Modification
 -----------    --------------------------------------------
 Nov 22 2016    Created main
 Nov 28 2016	   Restructured program - created fwgc function
-Nov 29 2016    Recursion works, solution path found
+Nov 29 2016    Recursion works. Solution path list created.
 
 TODO
- - Create path list and move list
- - Create Output function (not required?)
+ - Create move list
+ - Create Print function 
  - Docstring comments
-
 |#
 
 ; fwgc function
@@ -51,19 +50,18 @@ TODO
         (
             (curr-state '(0 0 0 0))
             (prev-move '-1)
-            ;(path-list nil)
+            (path-list nil)
         )
-	    (explore curr-state prev-move)
-        ;(explore curr-state prev-move path-list)
-        ;(Print path-list)
+	    ;(explore curr-state prev-move)
+        (explore curr-state prev-move path-list)
     )    
 )
 
 
 ; define the 'explore' recursive function (look for multi-function program)
 
-;(defun explore (curr-state prev-move path-list)
-(defun explore (curr-state prev-move)
+(defun explore (curr-state prev-move path-list)
+;(defun explore (curr-state prev-move)
     
     ;(write prev-move)
     ;(write (nth 0 curr-state))
@@ -79,8 +77,11 @@ TODO
         ; return failure
     (cond 
         ; goal state
-        ;((equal curr-state '(1 1 1 1)) (cons curr-state path-list) t)
-        ((equal curr-state '(1 1 1 1)) (Print curr-state) (Print prev-move) t)
+        ((equal curr-state '(1 1 1 1)) 
+            (setf path-list (cons curr-state path-list)) 
+            (print (reverse path-list)) t
+        )
+        ;((equal curr-state '(1 1 1 1)) (Print curr-state) (Print prev-move) t)
         
         (
          ; dangerous states
@@ -99,18 +100,27 @@ TODO
         )
 
         ; (t transition-rules curr-state nil)
-        #|((transition-rules curr-state prev-move path-list) 
-            (cons curr-state path-list) t
-        )|#
-        ((transition-rules curr-state prev-move) 
-            (Print curr-state) (Print prev-move) t
+        ((transition-rules curr-state prev-move path-list) 
+            (setf path-list (cons curr-state path-list)) t
         )
+        #|((transition-rules curr-state prev-move) 
+            (Print curr-state) (Print prev-move) t
+        )|#
     )
 )
 
-;(defun transition-rules (curr-state prev-move path-list)
-(defun transition-rules (curr-state prev-move)
+; will be called instead of print
+(defun print-path (path-list)
 
+
+
+
+)
+
+(defun transition-rules (curr-state prev-move path-list)
+;(defun transition-rules (curr-state prev-move)
+
+    (setf path-list (cons curr-state path-list))
     (cond 
         ; if prev-move != 0
         ; move F (switch first element: 0 to 1 or 1 to 0)
@@ -123,7 +133,7 @@ TODO
                            (nth 1 curr-state)
                            (nth 2 curr-state)
                            (nth 3 curr-state)
-                     ) '0 )
+                     ) '0 path-list)
          ) t 
         )
 
@@ -139,7 +149,7 @@ TODO
                            (toggle (nth 1 curr-state))
                            (nth 2 curr-state)
                            (nth 3 curr-state)
-                     ) '1 )
+                     ) '1 path-list)
          ) t
         )
 
@@ -155,7 +165,7 @@ TODO
                            (nth 1 curr-state)
                            (toggle (nth 2 curr-state))
                            (nth 3 curr-state)
-                     ) '2 )
+                     ) '2 path-list)
          ) t
         )
 
@@ -171,7 +181,7 @@ TODO
                            (nth 1 curr-state)
                            (nth 2 curr-state)
                            (toggle (nth 3 curr-state))
-                     ) '3 )
+                     ) '3 path-list)
          ) t
         )
     )
